@@ -6,8 +6,8 @@ api/openapi.yaml
 api_pins.go
 client.go
 configuration.go
-docs/Error.md
-docs/ErrorError.md
+docs/Failure.md
+docs/FailureError.md
 docs/Pin.md
 docs/PinResults.md
 docs/PinStatus.md
@@ -16,8 +16,8 @@ docs/Status.md
 git_push.sh
 go.mod
 go.sum
-model_error.go
-model_error_error.go
+model_failure.go
+model_failure_error.go
 model_pin.go
 model_pin_results.go
 model_pin_status.go

@@ -101,7 +101,7 @@ info:
     > **Note**: pagination by the `created` timestamp requires each value to be globally unique. Any future considerations to add support for bulk creation must account for this.
 
   title: IPFS Pinning Service API
-  version: 0.0.5
+  version: 0.1.1
   x-logo:
     url: https://bafybeidehxarrk54mkgyl5yxbgjzqilp6tkaz2or36jhq24n3rdtuven54.ipfs.dweb.link/?filename=ipfs-pinning-service.svg
 servers:
@@ -216,7 +216,7 @@ paths:
                 BadRequestExample:
                   $ref: '#/components/examples/BadRequestExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Bad request)
         "401":
           content:
@@ -225,7 +225,7 @@ paths:
                 UnauthorizedExample:
                   $ref: '#/components/examples/UnauthorizedExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Unauthorized; access token is missing or invalid)
         "404":
           content:
@@ -234,7 +234,7 @@ paths:
                 NotFoundExample:
                   $ref: '#/components/examples/NotFoundExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (The specified resource was not found)
         "409":
           content:
@@ -243,7 +243,7 @@ paths:
                 InsufficientFundsExample:
                   $ref: '#/components/examples/InsufficientFundsExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Insufficient funds)
         "4XX":
           content:
@@ -252,7 +252,7 @@ paths:
                 CustomServiceErrorExample:
                   $ref: '#/components/examples/CustomServiceErrorExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Custom service error)
         "5XX":
           content:
@@ -261,7 +261,7 @@ paths:
                 InternalServerErrorExample:
                   $ref: '#/components/examples/InternalServerErrorExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Unexpected internal server error)
       summary: List pin objects
       tags:
@@ -288,7 +288,7 @@ paths:
                 BadRequestExample:
                   $ref: '#/components/examples/BadRequestExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Bad request)
         "401":
           content:
@@ -297,7 +297,7 @@ paths:
                 UnauthorizedExample:
                   $ref: '#/components/examples/UnauthorizedExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Unauthorized; access token is missing or invalid)
         "404":
           content:
@@ -306,7 +306,7 @@ paths:
                 NotFoundExample:
                   $ref: '#/components/examples/NotFoundExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (The specified resource was not found)
         "409":
           content:
@@ -315,7 +315,7 @@ paths:
                 InsufficientFundsExample:
                   $ref: '#/components/examples/InsufficientFundsExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Insufficient funds)
         "4XX":
           content:
@@ -324,7 +324,7 @@ paths:
                 CustomServiceErrorExample:
                   $ref: '#/components/examples/CustomServiceErrorExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Custom service error)
         "5XX":
           content:
@@ -333,7 +333,7 @@ paths:
                 InternalServerErrorExample:
                   $ref: '#/components/examples/InternalServerErrorExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Unexpected internal server error)
       summary: Add pin object
       tags:
@@ -359,7 +359,7 @@ paths:
                 BadRequestExample:
                   $ref: '#/components/examples/BadRequestExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Bad request)
         "401":
           content:
@@ -368,7 +368,7 @@ paths:
                 UnauthorizedExample:
                   $ref: '#/components/examples/UnauthorizedExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Unauthorized; access token is missing or invalid)
         "404":
           content:
@@ -377,7 +377,7 @@ paths:
                 NotFoundExample:
                   $ref: '#/components/examples/NotFoundExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (The specified resource was not found)
         "409":
           content:
@@ -386,7 +386,7 @@ paths:
                 InsufficientFundsExample:
                   $ref: '#/components/examples/InsufficientFundsExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Insufficient funds)
         "4XX":
           content:
@@ -395,7 +395,7 @@ paths:
                 CustomServiceErrorExample:
                   $ref: '#/components/examples/CustomServiceErrorExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Custom service error)
         "5XX":
           content:
@@ -404,7 +404,7 @@ paths:
                 InternalServerErrorExample:
                   $ref: '#/components/examples/InternalServerErrorExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Unexpected internal server error)
       summary: Remove pin object
       tags:
@@ -433,7 +433,7 @@ paths:
                 BadRequestExample:
                   $ref: '#/components/examples/BadRequestExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Bad request)
         "401":
           content:
@@ -442,7 +442,7 @@ paths:
                 UnauthorizedExample:
                   $ref: '#/components/examples/UnauthorizedExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Unauthorized; access token is missing or invalid)
         "404":
           content:
@@ -451,7 +451,7 @@ paths:
                 NotFoundExample:
                   $ref: '#/components/examples/NotFoundExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (The specified resource was not found)
         "409":
           content:
@@ -460,7 +460,7 @@ paths:
                 InsufficientFundsExample:
                   $ref: '#/components/examples/InsufficientFundsExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Insufficient funds)
         "4XX":
           content:
@@ -469,7 +469,7 @@ paths:
                 CustomServiceErrorExample:
                   $ref: '#/components/examples/CustomServiceErrorExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Custom service error)
         "5XX":
           content:
@@ -478,7 +478,7 @@ paths:
                 InternalServerErrorExample:
                   $ref: '#/components/examples/InternalServerErrorExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Unexpected internal server error)
       summary: Get pin object
       tags:
@@ -515,7 +515,7 @@ paths:
                 BadRequestExample:
                   $ref: '#/components/examples/BadRequestExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Bad request)
         "401":
           content:
@@ -524,7 +524,7 @@ paths:
                 UnauthorizedExample:
                   $ref: '#/components/examples/UnauthorizedExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Unauthorized; access token is missing or invalid)
         "404":
           content:
@@ -533,7 +533,7 @@ paths:
                 NotFoundExample:
                   $ref: '#/components/examples/NotFoundExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (The specified resource was not found)
         "409":
           content:
@@ -542,7 +542,7 @@ paths:
                 InsufficientFundsExample:
                   $ref: '#/components/examples/InsufficientFundsExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Insufficient funds)
         "4XX":
           content:
@@ -551,7 +551,7 @@ paths:
                 CustomServiceErrorExample:
                   $ref: '#/components/examples/CustomServiceErrorExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Custom service error)
         "5XX":
           content:
@@ -560,7 +560,7 @@ paths:
                 InternalServerErrorExample:
                   $ref: '#/components/examples/InternalServerErrorExample'
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Failure'
           description: Error response (Unexpected internal server error)
       summary: Replace pin object
       tags:
@@ -707,7 +707,7 @@ components:
             BadRequestExample:
               $ref: '#/components/examples/BadRequestExample'
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: '#/components/schemas/Failure'
       description: Error response (Bad request)
     Unauthorized:
       content:
@@ -716,7 +716,7 @@ components:
             UnauthorizedExample:
               $ref: '#/components/examples/UnauthorizedExample'
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: '#/components/schemas/Failure'
       description: Error response (Unauthorized; access token is missing or invalid)
     NotFound:
       content:
@@ -725,7 +725,7 @@ components:
             NotFoundExample:
               $ref: '#/components/examples/NotFoundExample'
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: '#/components/schemas/Failure'
       description: Error response (The specified resource was not found)
     InsufficientFunds:
       content:
@@ -734,7 +734,7 @@ components:
             InsufficientFundsExample:
               $ref: '#/components/examples/InsufficientFundsExample'
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: '#/components/schemas/Failure'
       description: Error response (Insufficient funds)
     CustomServiceError:
       content:
@@ -743,7 +743,7 @@ components:
             CustomServiceErrorExample:
               $ref: '#/components/examples/CustomServiceErrorExample'
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: '#/components/schemas/Failure'
       description: Error response (Custom service error)
     InternalServerError:
       content:
@@ -752,7 +752,7 @@ components:
             InternalServerErrorExample:
               $ref: '#/components/examples/InternalServerErrorExample'
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: '#/components/schemas/Failure'
       description: Error response (Unexpected internal server error)
   schemas:
     PinResults:
@@ -992,15 +992,15 @@ components:
       example:
         status_details: 'Queue position: 7 of 9'
       type: object
-    Error:
-      description: Error object
+    Failure:
+      description: Response for a failed request
       properties:
         error:
-          $ref: '#/components/schemas/Error_error'
+          $ref: '#/components/schemas/Failure_error'
       required:
       - error
       type: object
-    Error_error:
+    Failure_error:
       properties:
         reason:
           description: Mandatory string identifying the type of error
