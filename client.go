@@ -38,11 +38,6 @@ func NewClient(url, bearerToken string) *Client {
 	return &Client{client: openapi.NewAPIClient(config)}
 }
 
-func getError(e *openapi.Error) error {
-	err := e.GetError()
-	return fmt.Errorf("request error: %s - %s", err.GetReason(), err.GetDetails())
-}
-
 // TODO: We should probably make sure there are no duplicates sent
 type lsSettings struct {
 	cids   []string
@@ -395,11 +390,6 @@ func httperr(resp *http.Response, e error) error {
 	}
 
 	bodystr := string(oerr.Body())
-	//body, err := ioutil.ReadAll(resp.Body)
-	//var bodystr string
-	//if err == nil {
-	//	bodystr = string(body)
-	//}
 	relevantErr := fmt.Sprintf("{ httpcode: %d, httpresp: %s, httpbody: %s, reqstr: %s }", resp.StatusCode, resp.Status, bodystr, reqStr)
 	relevantErrBytes, err := json.MarshalIndent(relevantErr, "", "\t")
 	if err != nil {
