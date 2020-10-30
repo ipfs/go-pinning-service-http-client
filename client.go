@@ -370,7 +370,7 @@ func getCIDEncoder() multibase.Encoder {
 func httperr(resp *http.Response, e error) error {
 	oerr, ok := e.(openapi.GenericOpenAPIError)
 	if !ok {
-		panic("wrong error type")
+		panic(fmt.Sprintf("unexpected error type: %v", e))
 	}
 	var buf bytes.Buffer
 	var err error
