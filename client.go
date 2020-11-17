@@ -3,7 +3,6 @@ package go_pinning_service_http_client
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"time"
@@ -372,6 +371,16 @@ func httperr(resp *http.Response, e error) error {
 	if !ok {
 		return e
 	}
+
+	ferr, ok := oerr.Model().(openapi.Failure)
+	if ok {
+		errJson, err := ferr.Error.MarshalJSON()
+		if err != nil {
+			return fmt.Errorf("failed to marshal Failure %w. Error was: {reason : %s, details : %s}", err, ferr.Error.GetReason(), ferr.Error.GetDetails())
+		}
+		return fmt.Errorf("%s", string(errJson))
+	}
+
 	var buf bytes.Buffer
 	var err error
 
@@ -390,11 +399,10 @@ func httperr(resp *http.Response, e error) error {
 	}
 
 	bodystr := string(oerr.Body())
-	relevantErr := fmt.Sprintf("{ httpstatus: %s, httpbody: %s, reqstr: %s }", resp.Status, bodystr, reqStr)
-	relevantErrBytes, err := json.MarshalIndent(relevantErr, "", "\t")
+	relevantErr := fmt.Errorf("{ httpstatus: %s, httpbody: %s, reqstr: %s }", resp.Status, bodystr, reqStr)
 	if err != nil {
-		return fmt.Errorf("RelevantInfo : %s, MarshalErr: %s, Err: %w", relevantErr, err, e)
+		return fmt.Errorf("RelevantInfo : %s, MarshalErr: %s, Err: %w", relevantErr.Error(), err, e)
 	}
 
-	return fmt.Errorf("relevantErr: %s, err: %w", relevantErrBytes, e)
+	return relevantErr
 }
