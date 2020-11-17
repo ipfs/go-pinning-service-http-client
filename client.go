@@ -390,7 +390,7 @@ func httperr(resp *http.Response, e error) error {
 	}
 
 	bodystr := string(oerr.Body())
-	relevantErr := fmt.Sprintf("{ httpcode: %d, httpresp: %s, httpbody: %s, reqstr: %s }", resp.StatusCode, resp.Status, bodystr, reqStr)
+	relevantErr := fmt.Sprintf("{ httpstatus: %s, httpbody: %s, reqstr: %s }", resp.Status, bodystr, reqStr)
 	relevantErrBytes, err := json.MarshalIndent(relevantErr, "", "\t")
 	if err != nil {
 		return fmt.Errorf("RelevantInfo : %s, MarshalErr: %s, Err: %w", relevantErr, err, e)
