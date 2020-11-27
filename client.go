@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+	"html/template"
 
 	"github.com/ipfs/go-cid"
 	"github.com/ipfs/go-pinning-service-http-client/openapi"
@@ -423,8 +424,8 @@ func httperr(resp *http.Response, e error) error {
 		reqStr = resp.Request.URL.String()
 	}
 
-	bodystr := string(oerr.Body())
-	relevantErr := fmt.Errorf("{ httpstatus: %s, httpbody: %s, reqstr: %s }", resp.Status, bodystr, reqStr)
+	bodystr := template.HTMLEscapeString(string(oerr.Body()))
+	relevantErr := fmt.Errorf("{ httpstatus: %q, httpbody: %q, reqstr: %q }", resp.Status, bodystr, reqStr)
 	if err != nil {
 		return fmt.Errorf("RelevantInfo : %s, MarshalErr: %s, Err: %w", relevantErr.Error(), err, e)
 	}
