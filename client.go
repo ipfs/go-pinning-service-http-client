@@ -1,9 +1,9 @@
 package go_pinning_service_http_client
 
 import (
-	"bytes"
 	"context"
 	"fmt"
+	"github.com/pkg/errors"
 	"net/http"
 	"time"
 
@@ -368,37 +368,16 @@ func getCIDEncoder() multibase.Encoder {
 
 func httperr(resp *http.Response, e error) error {
 	oerr, ok := e.(openapi.GenericOpenAPIError)
-	if !ok {
-		return e
-	}
-
-	ferr, ok := oerr.Model().(openapi.Failure)
 	if ok {
-		return fmt.Errorf("{ \"statusCode\": %d, \"reason\" : %q, \"details\" : %q }", resp.StatusCode, ferr.Error.GetReason(), ferr.Error.GetDetails())
-	}
-
-	var buf bytes.Buffer
-	var err error
-
-	var reqStr string
-	if resp.Request.GetBody != nil {
-		resp.Request.Body, err = resp.Request.GetBody()
-		if err != nil {
-			reqStr = err.Error()
-		} else if err := resp.Request.Write(&buf); err != nil {
-			reqStr = err.Error()
-		} else {
-			reqStr = buf.String()
+		ferr, ok := oerr.Model().(openapi.Failure)
+		if ok {
+			return errors.Wrapf(e,"statusCode: %d, reason : %q, details : %q", resp.StatusCode, ferr.Error.GetReason(), ferr.Error.GetDetails())
 		}
-	} else {
-		reqStr = resp.Request.URL.String()
 	}
 
-	bodystr := string(oerr.Body())
-	relevantErr := fmt.Errorf("{ httpstatus: %s, httpbody: %s, reqstr: %s }", resp.Status, bodystr, reqStr)
-	if err != nil {
-		return fmt.Errorf("RelevantInfo : %s, MarshalErr: %s, Err: %w", relevantErr.Error(), err, e)
+	if resp == nil {
+		return errors.Wrapf(e,"empty response from remote pinning service")
 	}
 
-	return relevantErr
+	return errors.Wrapf(e, "remote pinning service error. statusCode: %d", resp.StatusCode)
 }
