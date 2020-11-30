@@ -374,11 +374,7 @@ func httperr(resp *http.Response, e error) error {
 
 	ferr, ok := oerr.Model().(openapi.Failure)
 	if ok {
-		errJson, err := ferr.Error.MarshalJSON()
-		if err != nil {
-			return fmt.Errorf("failed to marshal Failure %w. Error was: {reason : %s, details : %s}", err, ferr.Error.GetReason(), ferr.Error.GetDetails())
-		}
-		return fmt.Errorf("%s", string(errJson))
+		return fmt.Errorf("{ \"statusCode\": %q, \"reason\" : %q, \"details\" : %q }", resp.Status, ferr.Error.GetReason(), ferr.Error.GetDetails())
 	}
 
 	var buf bytes.Buffer
