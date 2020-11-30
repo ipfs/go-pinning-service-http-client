@@ -1,5 +1,8 @@
 language: go
 
+go:
+  - 1.14.x
+
 install:
   - go get -d -v .
 
