@@ -202,13 +202,13 @@ func (c *Client) LsBatchSync(ctx context.Context, opts ...LsOption) ([]PinStatus
 	settings := new(lsSettings)
 	for _, o := range opts {
 		if err := o(settings); err != nil {
-			return res, 0, err
+			return nil, 0, err
 		}
 	}
 
 	pinRes, err := c.lsInternal(ctx, settings)
 	if err != nil {
-		return res, 0, err
+		return nil, 0, err
 	}
 
 	results := pinRes.GetResults()
