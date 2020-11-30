@@ -350,8 +350,7 @@ func (c *Client) DeleteByID(ctx context.Context, pinID string) error {
 	return nil
 }
 
-// TODO: Remove? (not sure what is the purpose of this - it just adds pin, does not modify nro replace anything)
-func (c *Client) Modify(ctx context.Context, pinID string, cid cid.Cid, opts ...AddOption) (PinStatusGetter, error) {
+func (c *Client) Replace(ctx context.Context, pinID string, cid cid.Cid, opts ...AddOption) (PinStatusGetter, error) {
 	settings := new(addSettings)
 	for _, o := range opts {
 		if err := o(settings); err != nil {
