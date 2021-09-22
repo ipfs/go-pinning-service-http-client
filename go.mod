@@ -1,6 +1,6 @@
 module github.com/ipfs/go-pinning-service-http-client
 
-go 1.14
+go 1.16
 
 require (
 	github.com/ipfs/go-cid v0.0.7
