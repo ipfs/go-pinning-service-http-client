@@ -3,10 +3,11 @@ package go_pinning_service_http_client
 import (
 	"encoding/json"
 	"fmt"
+	"time"
+
 	"github.com/ipfs/go-cid"
 	"github.com/ipfs/go-pinning-service-http-client/openapi"
 	"github.com/multiformats/go-multiaddr"
-	"time"
 )
 
 // PinGetter Getter for Pin object
@@ -104,7 +105,7 @@ type PinStatusGetter interface {
 }
 
 type pinStatusObject struct {
-	openapi.PinStatus
+	*openapi.PinStatus
 }
 
 func (p *pinStatusObject) GetDelegates() []multiaddr.Multiaddr {

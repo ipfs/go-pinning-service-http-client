@@ -28,6 +28,9 @@ Current code generated with: openapi-generator 6.0.1
 openapi-generator-cli generate -g go -i https://raw.githubusercontent.com/ipfs/pinning-services-api-spec/master/ipfs-pinning-service.yaml -o openapi
 ```
 
+NOTE: Due to [this upstream bug](https://github.com/OpenAPITools/openapi-generator/issues/7473)
+the code generated for processing HTTP error codes may need some manual editing.
+
 ## Contributing
 
 Contributions are welcome! This repository is part of the IPFS project and therefore governed by our [contributing guidelines](https://github.com/ipfs/community/blob/master/CONTRIBUTING.md).

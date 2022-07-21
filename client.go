@@ -180,7 +180,7 @@ func (c *Client) Ls(ctx context.Context, opts ...LsOption) (chan PinStatusGetter
 			results := pinRes.GetResults()
 			for _, r := range results {
 				select {
-				case res <- &pinStatusObject{r}:
+				case res <- &pinStatusObject{&r}:
 				case <-ctx.Done():
 					errs <- ctx.Err()
 					return
@@ -236,14 +236,14 @@ func (c *Client) LsBatchSync(ctx context.Context, opts ...LsOption) ([]PinStatus
 
 	results := pinRes.GetResults()
 	for _, r := range results {
-		res = append(res, &pinStatusObject{r})
+		res = append(res, &pinStatusObject{&r})
 	}
 
 	return res, int(pinRes.Count), nil
 }
 
-func (c *Client) lsInternal(ctx context.Context, settings *lsSettings) (pinResults, error) {
-	getter := c.client.PinsApi.PinsGet(ctx)
+func (c *Client) lsInternal(ctx context.Context, settings *lsSettings) (*pinResults, error) {
+	getter := c.client.PinsApi.GetPins(ctx)
 	if len(settings.cids) > 0 {
 		getter = getter.Cid(settings.cids)
 	}
@@ -276,7 +276,7 @@ func (c *Client) lsInternal(ctx context.Context, settings *lsSettings) (pinResul
 	results, httpresp, err := getter.Execute()
 	if err != nil {
 		err := httperr(httpresp, err)
-		return pinResults{}, err
+		return &pinResults{}, err
 	}
 
 	return results, nil
@@ -327,7 +327,7 @@ func (c *Client) Add(ctx context.Context, cid cid.Cid, opts ...AddOption) (PinSt
 		}
 	}
 
-	adder := c.client.PinsApi.PinsPost(ctx)
+	adder := c.client.PinsApi.AddPin(ctx)
 	p := openapi.Pin{
 		Cid: cid.Encode(getCIDEncoder()),
 	}
@@ -352,7 +352,7 @@ func (c *Client) Add(ctx context.Context, cid cid.Cid, opts ...AddOption) (PinSt
 }
 
 func (c *Client) GetStatusByID(ctx context.Context, pinID string) (PinStatusGetter, error) {
-	getter := c.client.PinsApi.PinsRequestidGet(ctx, pinID)
+	getter := c.client.PinsApi.GetPinByRequestId(ctx, pinID)
 	result, httpresp, err := getter.Execute()
 	if err != nil {
 		err := httperr(httpresp, err)
@@ -363,7 +363,7 @@ func (c *Client) GetStatusByID(ctx context.Context, pinID string) (PinStatusGett
 }
 
 func (c *Client) DeleteByID(ctx context.Context, pinID string) error {
-	deleter := c.client.PinsApi.PinsRequestidDelete(ctx, pinID)
+	deleter := c.client.PinsApi.DeletePinByRequestId(ctx, pinID)
 	httpresp, err := deleter.Execute()
 	if err != nil {
 		err := httperr(httpresp, err)
@@ -380,7 +380,7 @@ func (c *Client) Replace(ctx context.Context, pinID string, cid cid.Cid, opts ..
 		}
 	}
 
-	adder := c.client.PinsApi.PinsRequestidPost(ctx, pinID)
+	adder := c.client.PinsApi.ReplacePinByRequestId(ctx, pinID)
 	p := openapi.Pin{
 		Cid: cid.Encode(getCIDEncoder()),
 	}
