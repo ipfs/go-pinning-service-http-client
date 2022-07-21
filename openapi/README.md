@@ -7,7 +7,16 @@ The IPFS Pinning Service API is intended to be an implementation-agnostic API&#x
 - For use and implementation by pinning service providers
 - For use in client mode by IPFS nodes and GUI-based applications
 
-> **Note**: while ready for implementation, this spec is still a work in progress! 🏗️  **Your input and feedback are welcome and valuable as we develop this API spec. Please join the design discussion at [github.com/ipfs/pinning-services-api-spec](https://github.com/ipfs/pinning-services-api-spec).**
+### Document scope and intended audience
+The intended audience of this document is **IPFS developers** building pinning service clients or servers compatible with this OpenAPI spec. Your input and feedback are welcome and valuable as we develop this API spec. Please join the design discussion at [github.com/ipfs/pinning-services-api-spec](https://github.com/ipfs/pinning-services-api-spec).
+
+**IPFS users** should see the tutorial at [docs.ipfs.io/how-to/work-with-pinning-services](https://docs.ipfs.io/how-to/work-with-pinning-services/) instead.
+
+### Related resources
+The latest version of this spec and additional resources can be found at:
+- Specification: https://github.com/ipfs/pinning-services-api-spec/raw/main/ipfs-pinning-service.yaml
+- Docs: https://ipfs.github.io/pinning-services-api-spec/
+- Clients and services: https://github.com/ipfs/pinning-services-api-spec#adoption
 
 # Schemas
 This section describes the most important object types and conventions.
@@ -31,55 +40,84 @@ Service implementation should use UUID, `hash(accessToken,Pin,PinStatus.created)
 
 The `Pin` object is a representation of a pin request.
 
-It includes the `cid` of data to be pinned, as well as optional metadata in `name`, `origins`, and `meta`.
+It includes the `cid` of data to be pinned, as well as optional metadata in `name`, `origins`, and `meta`. Addresses provided in `origins` list are relevant only during the initial pinning, and don't need to be persisted by the pinning service.
 
 ### Pin status response
 
 ![pin status response object](https://bafybeideck2fchyxna4wqwc2mo67yriokehw3yujboc5redjdaajrk2fjq.ipfs.dweb.link/pinstatus.png)
 
 The `PinStatus` object is a representation of the current state of a pinning operation.
-It includes the original `pin` object, along with the current `status` and globally unique `requestid` of the entire pinning request, which can be used for future status checks and management. Addresses in the `delegates` array are peers delegated by the pinning service for facilitating direct file transfers (more details in the provider hints section). Any additional vendor-specific information is returned in optional `info`.
+It includes values from the original `Pin` object, along with the current `status` and globally unique `requestid` of the entire pinning request, which can be used for future status checks and management. Addresses in the `delegates` array are peers designated by pinning service that will receive the pin data over bitswap (more details in the [Provider hints](#section/Provider-hints) section). Any additional vendor-specific information is returned in optional `info`.
 
-## The pin lifecycle
+# The pin lifecycle
 
 ![pinning service objects and lifecycle](https://bafybeideck2fchyxna4wqwc2mo67yriokehw3yujboc5redjdaajrk2fjq.ipfs.dweb.link/lifecycle.png)
 
-### Creating a new pin object
+## Creating a new pin object
 The user sends a `Pin` object to `POST /pins` and receives a `PinStatus` response:
 - `requestid` in `PinStatus` is the identifier of the pin operation, which can can be used for checking status, and removing the pin in the future
 - `status` in `PinStatus` indicates the current state of a pin
 
-### Checking status of in-progress pinning
+## Checking status of in-progress pinning
 `status` (in `PinStatus`) may indicate a pending state (`queued` or `pinning`). This means the data behind `Pin.cid` was not found on the pinning service and is being fetched from the IPFS network at large, which may take time.
 
 In this case, the user can periodically check pinning progress via `GET /pins/{requestid}` until pinning is successful, or the user decides to remove the pending pin.
 
-### Replacing an existing pin object
+## Replacing an existing pin object
 The user can replace an existing pin object via `POST /pins/{requestid}`. This is a shortcut for removing a pin object identified by `requestid` and creating a new one in a single API call that protects against undesired garbage collection of blocks common to both pins. Useful when updating a pin representing a huge dataset where most of blocks did not change. The new pin object `requestid` is returned in the `PinStatus` response. The old pin object is deleted automatically.
 
-### Removing a pin object
+## Removing a pin object
 A pin object can be removed via `DELETE /pins/{requestid}`.
 
 
-## Provider hints
-Pinning of new data can be accelerated by providing a list of known data sources in `Pin.origins`, and connecting at least one of them to pinning service nodes at `PinStatus.delegates`.
+# Provider hints
+Provider hints take the form of two [multiaddr](https://docs.ipfs.io/concepts/glossary/#multiaddr) lists: `Pin.origins` and `PinStatus.delegates`
 
-The most common scenario is a client putting its own IPFS node's multiaddrs in `Pin.origins`,  and then directly connecting to every multiaddr returned by a pinning service in `PinStatus.delegates` to initiate transfer.
+## Pin.origins
+A list of known sources (providers) of the data. Sent by a client in a pin request. Pinning service will try to connect to them to speed up data transfer.
 
-This ensures data transfer starts immediately (without waiting for provider discovery over DHT), and direct dial from a client works around peer routing issues in restrictive network topologies such as NATs.
+## PinStatus.delegates
+A list of temporary destination (retrievers) for the data. Returned by pinning service in a response for a pin request. These peers are provided by a pinning service for the purpose of fetching data about to be pinned.
 
-## Custom metadata
+## Optimizing for speed and connectivity
+Both ends should attempt to preconnect to each other:
+- Delegates should always preconnect to origins
+- Clients who initiate pin request and also have the pinned data in their own local datastore should preconnect to delegates
+
+**NOTE:** Connections to multiaddrs in `origins` and `delegates` arrays should be attempted in best-effort fashion, and dial failure should not fail the pinning operation. When unable to act on explicit provider hints, DHT and other discovery methods should be used as a fallback by a pinning service.
+
+## Rationale
+A pinning service will use the DHT and other discovery methods to locate pinned content; however, it may not be able to retrieve data if the only provider has no publicly diallable address (e.g. a desktop peer behind a restrictive NAT/firewall).
+
+Leveraging provider hints mitigates potential connectivity issues and speeds up the content routing phase. If a client has the data in their own datastore or already knows of other providers, the transfer will start immediately.
+
+The most common scenario is a client putting its own IPFS node's multiaddrs in `Pin.origins`,  and then attempt to connect to every multiaddr returned by a pinning service in `PinStatus.delegates` to initiate transfer.  At the same time, a pinning service will try to connect to multiaddrs provided by the client in `Pin.origins`.
+
+This ensures data transfer starts immediately (without waiting for provider discovery over DHT), and mutual direct dial between a client and a service works around peer routing issues in restrictive network topologies, such as NATs, firewalls, etc.
+
+**NOTE:** All multiaddrs MUST end with `/p2p/{peerID}` and SHOULD be fully resolved and confirmed to be dialable from the public internet. Avoid sending addresses from local networks.
+
+# Custom metadata
 Pinning services are encouraged to add support for additional features by leveraging the optional `Pin.meta` and `PinStatus.info` fields. While these attributes can be application- or vendor-specific, we encourage the community at large to leverage these attributes as a sandbox to come up with conventions that could become part of future revisions of this API.
-### Pin metadata
-String keys and values passed in `Pin.meta` are persisted with the pin object.
+## Pin metadata
+String keys and values passed in `Pin.meta` are persisted with the pin object. This is an opt-in feature: It is OK for a client to omit or ignore these optional attributes, and doing so should not impact the basic pinning functionality.
 
 Potential uses:
-- `Pin.meta[app_id]`: Attaching a unique identifier to pins created by an app enables filtering pins per app via `?meta={\"app_id\":<UUID>}`
+- `Pin.meta[app_id]`: Attaching a unique identifier to pins created by an app enables meta-filtering pins per app
 - `Pin.meta[vendor_policy]`: Vendor-specific policy (for example: which region to use, how many copies to keep)
 
-Note that it is OK for a client to omit or ignore these optional attributes; doing so should not impact the basic pinning functionality.
+### Filtering based on metadata
+The contents of `Pin.meta` can be used as an advanced search filter for situations where searching by `name` and `cid` is not enough.
 
-### Pin status info
+Metadata key matching rule is `AND`:
+- lookup returns pins that have `meta` with all key-value pairs matching the passed values
+- pin metadata may have more keys, but only ones passed in the query are used for filtering
+
+The wire format for the `meta` when used as a query parameter is a [URL-escaped](https://en.wikipedia.org/wiki/Percent-encoding) stringified JSON object. A lookup example for pins that have a `meta` key-value pair `{\"app_id\":\"UUID\"}` is:
+- `GET /pins?meta=%7B%22app_id%22%3A%22UUID%22%7D`
+
+
+## Pin status info
 Additional `PinStatus.info` can be returned by pinning service.
 
 Potential uses:
@@ -104,9 +142,10 @@ Pin objects can be listed by executing `GET /pins` with optional parameters:
 ## Overview
 This API client was generated by the [OpenAPI Generator](https://openapi-generator.tech) project.  By using the [OpenAPI-spec](https://www.openapis.org/) from a remote server, you can easily generate an API client.
 
-- API version: 0.1.1
+- API version: 1.0.0
 - Package version: 1.0.0
-- Build package: org.openapitools.codegen.languages.GoClientExperimentalCodegen
+- Build package: org.openapitools.codegen.languages.GoClientCodegen
+For more information, please visit [https://github.com/ipfs/pinning-services-api-spec](https://github.com/ipfs/pinning-services-api-spec)
 
 ## Installation
 
@@ -121,7 +160,13 @@ go get golang.org/x/net/context
 Put the package under your project folder and add the following in import:
 
 ```golang
-import sw "./openapi"
+import openapi "github.com/GIT_USER_ID/GIT_REPO_ID"
+```
+
+To use a proxy, set the environment variable `HTTP_PROXY`:
+
+```golang
+os.Setenv("HTTP_PROXY", "http://proxy_name:proxy_port")
 ```
 
 ## Configuration of Server URL
@@ -133,7 +178,7 @@ Default configuration comes with `Servers` field that contains server objects as
 For using other server than the one defined on index 0 set context value `sw.ContextServerIndex` of type `int`.
 
 ```golang
-ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
+ctx := context.WithValue(context.Background(), openapi.ContextServerIndex, 1)
 ```
 
 ### Templated Server URL
@@ -141,7 +186,7 @@ ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
 Templated server URL is formatted using default variables from configuration or from context value `sw.ContextServerVariables` of type `map[string]string`.
 
 ```golang
-ctx := context.WithValue(context.Background(), sw.ContextServerVariables, map[string]string{
+ctx := context.WithValue(context.Background(), openapi.ContextServerVariables, map[string]string{
 	"basePath": "v2",
 })
 ```
@@ -151,14 +196,14 @@ Note, enum values are always validated and all unused variables are silently ign
 ### URLs Configuration per Operation
 
 Each operation can use different server URL defined using `OperationServers` map in the `Configuration`.
-An operation is uniquely identifield by `"{classname}Service.{nickname}"` string.
+An operation is uniquely identified by `"{classname}Service.{nickname}"` string.
 Similar rules for overriding default operation server index and variables applies by using `sw.ContextOperationServerIndices` and `sw.ContextOperationServerVariables` context maps.
 
 ```
-ctx := context.WithValue(context.Background(), sw.ContextOperationServerIndices, map[string]int{
+ctx := context.WithValue(context.Background(), openapi.ContextOperationServerIndices, map[string]int{
 	"{classname}Service.{nickname}": 2,
 })
-ctx = context.WithValue(context.Background(), sw.ContextOperationServerVariables, map[string]map[string]string{
+ctx = context.WithValue(context.Background(), openapi.ContextOperationServerVariables, map[string]map[string]string{
 	"{classname}Service.{nickname}": {
 		"port": "8443",
 	},
@@ -171,11 +216,11 @@ All URIs are relative to *https://pinning-service.example.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*PinsApi* | [**PinsGet**](docs/PinsApi.md#pinsget) | **Get** /pins | List pin objects
-*PinsApi* | [**PinsPost**](docs/PinsApi.md#pinspost) | **Post** /pins | Add pin object
-*PinsApi* | [**PinsRequestidDelete**](docs/PinsApi.md#pinsrequestiddelete) | **Delete** /pins/{requestid} | Remove pin object
-*PinsApi* | [**PinsRequestidGet**](docs/PinsApi.md#pinsrequestidget) | **Get** /pins/{requestid} | Get pin object
-*PinsApi* | [**PinsRequestidPost**](docs/PinsApi.md#pinsrequestidpost) | **Post** /pins/{requestid} | Replace pin object
+*PinsApi* | [**AddPin**](docs/PinsApi.md#addpin) | **Post** /pins | Add pin object
+*PinsApi* | [**DeletePinByRequestId**](docs/PinsApi.md#deletepinbyrequestid) | **Delete** /pins/{requestid} | Remove pin object
+*PinsApi* | [**GetPinByRequestId**](docs/PinsApi.md#getpinbyrequestid) | **Get** /pins/{requestid} | Get pin object
+*PinsApi* | [**GetPins**](docs/PinsApi.md#getpins) | **Get** /pins | List pin objects
+*PinsApi* | [**ReplacePinByRequestId**](docs/PinsApi.md#replacepinbyrequestid) | **Post** /pins/{requestid} | Replace pin object
 
 
 ## Documentation For Models
@@ -186,6 +231,7 @@ Class | Method | HTTP request | Description
  - [PinResults](docs/PinResults.md)
  - [PinStatus](docs/PinStatus.md)
  - [Status](docs/Status.md)
+ - [TextMatchingStrategy](docs/TextMatchingStrategy.md)
 
 
 ## Documentation For Authorization
@@ -193,6 +239,15 @@ Class | Method | HTTP request | Description
 
 
 ### accessToken
+
+- **Type**: HTTP Bearer token authentication
+
+Example
+
+```golang
+auth := context.WithValue(context.Background(), sw.ContextAccessToken, "BEARER_TOKEN_STRING")
+r, err := client.Service.Operation(auth, args)
+```
 
 
 ## Documentation for Utility Methods

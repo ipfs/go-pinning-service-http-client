@@ -1,15 +1,15 @@
-# Status
+# TextMatchingStrategy
 
 ## Enum
 
 
-* `QUEUED` (value: `"queued"`)
+* `EXACT` (value: `"exact"`)
 
-* `PINNING` (value: `"pinning"`)
+* `IEXACT` (value: `"iexact"`)
 
-* `PINNED` (value: `"pinned"`)
+* `PARTIAL` (value: `"partial"`)
 
-* `FAILED` (value: `"failed"`)
+* `IPARTIAL` (value: `"ipartial"`)
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

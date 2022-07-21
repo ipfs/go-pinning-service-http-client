@@ -11,5 +11,12 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+# openapi-generator
+openapi/.travis.yml
+openapi/go.sum
+openapi/go.mod
+openapi/git_push.sh
+openapitools.json
+
 # Dependency directories (remove the comment below to include it)
 # vendor/

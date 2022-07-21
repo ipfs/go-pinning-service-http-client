@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Cid** | **string** | Content Identifier (CID) to be pinned recursively | 
 **Name** | Pointer to **string** | Optional name for pinned data; can be used for lookups later | [optional] 
-**Origins** | Pointer to **[]string** | Optional list of multiaddrs known to provide the data | [optional] 
+**Origins** | Pointer to **[]string** | Optional list of multiaddrs known to provide the data; see Provider Hints in the docs | [optional] 
 **Meta** | Pointer to **map[string]string** | Optional metadata for pin object | [optional] 
 
 ## Methods

@@ -6,9 +6,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Requestid** | **string** | Globally unique identifier of the pin request; can be used to check the status of ongoing pinning, or pin removal | 
 **Status** | [**Status**](Status.md) |  | 
-**Created** | [**time.Time**](time.Time.md) | Immutable timestamp indicating when a pin request entered a pinning service; can be used for filtering results and pagination | 
+**Created** | **time.Time** | Immutable timestamp indicating when a pin request entered a pinning service; can be used for filtering results and pagination | 
 **Pin** | [**Pin**](Pin.md) |  | 
-**Delegates** | **[]string** | List of multiaddrs designated by pinning service for transferring any new data from external peers | 
+**Delegates** | **[]string** | List of multiaddrs designated by pinning service that will receive the pin data; see Provider Hints in the docs | 
 **Info** | Pointer to **map[string]string** | Optional info for PinStatus response | [optional] 
 
 ## Methods

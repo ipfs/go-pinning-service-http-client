@@ -1,6 +1,5 @@
 # go-pinning-service-http-client
 
-
 [![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg?style=flat-square)](http://protocol.ai)
 [![](https://img.shields.io/badge/project-IPFS-blue.svg?style=flat-square)](https://ipfs.io/)
 [![](https://img.shields.io/badge/status-draft-yellow.svg?style=flat-square)](https://github.com/ipfs/specs/#understanding-the-meaning-of-the-spec-badges-and-their-lifecycle)
@@ -15,20 +14,19 @@ An IPFS Pinning Service HTTP Client
 
 ## Updating Pinning Service Spec
 
-Download the openapi-generator from https://github.com/OpenAPITools/openapi-generator and generate the code using:
-
-Current code generated with: openapi-generator 5.0.0-beta
+Download the openapi-generator from https://github.com/OpenAPITools/openapi-generator or NPM:
 
 ```
-openapi-generator generate -g go-experimental -i https://raw.githubusercontent.com/ipfs/pinning-services-api-spec/master/ipfs-pinning-service.yaml -o openapi
-rm openapi/go.mod openapi/go.sum
+npm install -g @openapitools/openapi-generator-cli
 ```
 
-Notes:
-Due to https://github.com/OpenAPITools/openapi-generator/issues/7473 the code generator the http error codes processing
-may need some manual editing.
+and generate the code using:
 
-`go-experimental` is becoming mainstream and so in later versions will be replaced with `go`
+Current code generated with: openapi-generator 6.0.1
+
+```
+openapi-generator-cli generate -g go -i https://raw.githubusercontent.com/ipfs/pinning-services-api-spec/master/ipfs-pinning-service.yaml -o openapi
+```
 
 ## Contributing
 

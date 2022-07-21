@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Error** | [**FailureError**](Failure_error.md) |  | 
+**Error** | [**FailureError**](FailureError.md) |  | 
 
 ## Methods
 

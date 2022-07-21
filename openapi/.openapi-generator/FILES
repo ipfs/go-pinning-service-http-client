@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -13,6 +12,7 @@ docs/PinResults.md
 docs/PinStatus.md
 docs/PinsApi.md
 docs/Status.md
+docs/TextMatchingStrategy.md
 git_push.sh
 go.mod
 go.sum
@@ -22,5 +22,6 @@ model_pin.go
 model_pin_results.go
 model_pin_status.go
 model_status.go
+model_text_matching_strategy.go
 response.go
 utils.go
