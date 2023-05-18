@@ -39,6 +39,8 @@ var (
 
 // APIClient manages communication with the IPFS Pinning Service API API v0.1.1
 // In most cases there should be only one, shared, APIClient.
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.APIClient
 type APIClient struct {
 	cfg    *Configuration
 	common service // Reuse a single struct instead of allocating one for each service on the heap.
@@ -54,6 +56,8 @@ type service struct {
 
 // NewAPIClient creates a new API client. Requires a userAgent string describing your application.
 // optionally a custom http.Client to allow for advanced features such as caching.
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewAPIClient
 func NewAPIClient(cfg *Configuration) *APIClient {
 	if cfg.HTTPClient == nil {
 		cfg.HTTPClient = http.DefaultClient
@@ -447,6 +451,8 @@ func parseCacheControl(headers http.Header) cacheControl {
 }
 
 // CacheExpires helper function to determine remaining time before repeating a request.
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.CacheExpires
 func CacheExpires(r *http.Response) time.Time {
 	// Figure out when the cache expires.
 	var expires time.Time
@@ -476,6 +482,8 @@ func CacheExpires(r *http.Response) time.Time {
 }
 
 // GenericOpenAPIError Provides access to the body, error and model on returned errors.
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.GenericOpenAPIError
 type GenericOpenAPIError struct {
 	body  []byte
 	error string

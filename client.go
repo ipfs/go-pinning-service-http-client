@@ -18,12 +18,15 @@ import (
 
 var logger = logging.Logger("pinning-service-http-client")
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client.UserAgent
 const UserAgent = "go-pinning-service-http-client"
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client.Client
 type Client struct {
 	client *openapi.APIClient
 }
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client.NewClient
 func NewClient(url, bearerToken string) *Client {
 	config := openapi.NewConfiguration()
 	config.UserAgent = UserAgent
@@ -48,8 +51,10 @@ type lsSettings struct {
 	meta   map[string]string
 }
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client.LsOption
 type LsOption func(options *lsSettings) error
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client.PinOpts
 var PinOpts = pinOpts{}
 
 type pinOpts struct {
@@ -288,6 +293,7 @@ type addSettings struct {
 	meta    map[string]string
 }
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client.AddOption
 type AddOption func(options *addSettings) error
 
 type pinAddOpts struct{}

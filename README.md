@@ -1,17 +1,21 @@
 # go-pinning-service-http-client
 
+> This repo is contains a reference implementation of a client for the [IPFS Pinning Services API Spec](https://github.com/ipfs/pinning-services-api-spec)
+
 
 [![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg?style=flat-square)](http://protocol.ai)
 [![](https://img.shields.io/badge/project-IPFS-blue.svg?style=flat-square)](https://ipfs.io/)
 [![](https://img.shields.io/badge/status-draft-yellow.svg?style=flat-square)](https://github.com/ipfs/specs/#understanding-the-meaning-of-the-spec-badges-and-their-lifecycle)
 
-An IPFS Pinning Service HTTP Client
+## ❗ This repo is no longer maintained.
 
-> This repo is contains a reference implementation of a client for the [IPFS Pinning Services API Spec](https://github.com/ipfs/pinning-services-api-spec)
+👉 We highly recommend switching to the maintained version at https://github.com/ipfs/boxo/tree/main/pinning/remote.
+🏎️ Good news!  There is [tooling and documentation](https://github.com/ipfs/boxo#migrating-to-boxo) to expedite a switch in your repo. 
 
-## Lead Maintainer
+⚠️ If you continue using this repo, please note that security fixes will not be provided (unless someone steps in to maintain it).
 
-[Adin Schmahmann](https://github.com/aschmahmann)
+📚 Learn more, including how to take the maintainership mantle or ask questions, [here](https://github.com/ipfs/boxo/wiki/Copied-or-Migrated-Repos-FAQ).
+
 
 ## Updating Pinning Service Spec
 

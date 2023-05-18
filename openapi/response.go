@@ -14,6 +14,8 @@ import (
 )
 
 // APIResponse stores the API response returned by the server.
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.APIResponse
 type APIResponse struct {
 	*http.Response `json:"-"`
 	Message        string `json:"message,omitempty"`
@@ -32,6 +34,8 @@ type APIResponse struct {
 }
 
 // NewAPIResponse returns a new APIResonse object.
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewAPIResponse
 func NewAPIResponse(r *http.Response) *APIResponse {
 
 	response := &APIResponse{Response: r}
@@ -39,6 +43,8 @@ func NewAPIResponse(r *http.Response) *APIResponse {
 }
 
 // NewAPIResponseWithError returns a new APIResponse object with the provided error message.
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewAPIResponseWithError
 func NewAPIResponseWithError(errorMessage string) *APIResponse {
 
 	response := &APIResponse{Message: errorMessage}

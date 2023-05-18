@@ -14,6 +14,8 @@ import (
 )
 
 // FailureError struct for FailureError
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.FailureError
 type FailureError struct {
 	// Mandatory string identifying the type of error
 	Reason string `json:"reason"`
@@ -25,6 +27,8 @@ type FailureError struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewFailureError
 func NewFailureError(reason string) *FailureError {
 	this := FailureError{}
 	this.Reason = reason
@@ -34,6 +38,8 @@ func NewFailureError(reason string) *FailureError {
 // NewFailureErrorWithDefaults instantiates a new FailureError object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewFailureErrorWithDefaults
 func NewFailureErrorWithDefaults() *FailureError {
 	this := FailureError{}
 	return &this
@@ -106,6 +112,7 @@ func (o FailureError) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NullableFailureError
 type NullableFailureError struct {
 	value *FailureError
 	isSet bool
@@ -129,6 +136,7 @@ func (v *NullableFailureError) Unset() {
 	v.isSet = false
 }
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewNullableFailureError
 func NewNullableFailureError(val *FailureError) *NullableFailureError {
 	return &NullableFailureError{value: val, isSet: true}
 }

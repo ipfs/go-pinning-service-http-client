@@ -28,46 +28,70 @@ func (c contextKey) String() string {
 
 var (
 	// ContextOAuth2 takes an oauth2.TokenSource as authentication for the request.
+	//
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.ContextOAuth2
 	ContextOAuth2 = contextKey("token")
 
 	// ContextBasicAuth takes BasicAuth as authentication for the request.
+	//
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.ContextBasicAuth
 	ContextBasicAuth = contextKey("basic")
 
 	// ContextAccessToken takes a string oauth2 access token as authentication for the request.
+	//
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.ContextAccessToken
 	ContextAccessToken = contextKey("accesstoken")
 
 	// ContextAPIKeys takes a string apikey as authentication for the request
+	//
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.ContextAPIKeys
 	ContextAPIKeys = contextKey("apiKeys")
 
 	// ContextHttpSignatureAuth takes HttpSignatureAuth as authentication for the request.
+	//
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.ContextHttpSignatureAuth
 	ContextHttpSignatureAuth = contextKey("httpsignature")
 
 	// ContextServerIndex uses a server configuration from the index.
+	//
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.ContextServerIndex
 	ContextServerIndex = contextKey("serverIndex")
 
 	// ContextOperationServerIndices uses a server configuration from the index mapping.
+	//
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.ContextOperationServerIndices
 	ContextOperationServerIndices = contextKey("serverOperationIndices")
 
 	// ContextServerVariables overrides a server configuration variables.
+	//
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.ContextServerVariables
 	ContextServerVariables = contextKey("serverVariables")
 
 	// ContextOperationServerVariables overrides a server configuration variables using operation specific values.
+	//
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.ContextOperationServerVariables
 	ContextOperationServerVariables = contextKey("serverOperationVariables")
 )
 
 // BasicAuth provides basic http authentication to a request passed via context using ContextBasicAuth
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.BasicAuth
 type BasicAuth struct {
 	UserName string `json:"userName,omitempty"`
 	Password string `json:"password,omitempty"`
 }
 
 // APIKey provides API key based authentication to a request passed via context using ContextAPIKey
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.APIKey
 type APIKey struct {
 	Key    string
 	Prefix string
 }
 
 // ServerVariable stores the information about a server variable
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.ServerVariable
 type ServerVariable struct {
 	Description  string
 	DefaultValue string
@@ -75,6 +99,8 @@ type ServerVariable struct {
 }
 
 // ServerConfiguration stores the information about a server
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.ServerConfiguration
 type ServerConfiguration struct {
 	URL         string
 	Description string
@@ -82,9 +108,13 @@ type ServerConfiguration struct {
 }
 
 // ServerConfigurations stores multiple ServerConfiguration items
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.ServerConfigurations
 type ServerConfigurations []ServerConfiguration
 
 // Configuration stores the configuration of the API client
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.Configuration
 type Configuration struct {
 	Host             string            `json:"host,omitempty"`
 	Scheme           string            `json:"scheme,omitempty"`
@@ -97,6 +127,8 @@ type Configuration struct {
 }
 
 // NewConfiguration returns a new Configuration object
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewConfiguration
 func NewConfiguration() *Configuration {
 	cfg := &Configuration{
 		DefaultHeader: make(map[string]string),

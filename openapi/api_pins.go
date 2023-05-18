@@ -24,6 +24,8 @@ var (
 )
 
 // PinsApiService PinsApi service
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.PinsApiService
 type PinsApiService service
 
 type apiPinsGetRequest struct {

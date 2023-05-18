@@ -14,6 +14,8 @@ import (
 )
 
 // PinResults Response used for listing pin objects matching request
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.PinResults
 type PinResults struct {
 	// The total number of pin objects that exist for passed query filters
 	Count int32 `json:"count"`
@@ -25,6 +27,8 @@ type PinResults struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewPinResults
 func NewPinResults(count int32, results []PinStatus) *PinResults {
 	this := PinResults{}
 	this.Count = count
@@ -35,6 +39,8 @@ func NewPinResults(count int32, results []PinStatus) *PinResults {
 // NewPinResultsWithDefaults instantiates a new PinResults object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewPinResultsWithDefaults
 func NewPinResultsWithDefaults() *PinResults {
 	this := PinResults{}
 	return &this
@@ -99,6 +105,7 @@ func (o PinResults) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NullablePinResults
 type NullablePinResults struct {
 	value *PinResults
 	isSet bool
@@ -122,6 +129,7 @@ func (v *NullablePinResults) Unset() {
 	v.isSet = false
 }
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewNullablePinResults
 func NewNullablePinResults(val *PinResults) *NullablePinResults {
 	return &NullablePinResults{value: val, isSet: true}
 }

@@ -14,6 +14,8 @@ import (
 )
 
 // Failure Response for a failed request
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.Failure
 type Failure struct {
 	Error FailureError `json:"error"`
 }
@@ -22,6 +24,8 @@ type Failure struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewFailure
 func NewFailure(error_ FailureError) *Failure {
 	this := Failure{}
 	this.Error = error_
@@ -31,6 +35,8 @@ func NewFailure(error_ FailureError) *Failure {
 // NewFailureWithDefaults instantiates a new Failure object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewFailureWithDefaults
 func NewFailureWithDefaults() *Failure {
 	this := Failure{}
 	return &this
@@ -68,6 +74,7 @@ func (o Failure) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NullableFailure
 type NullableFailure struct {
 	value *Failure
 	isSet bool
@@ -91,6 +98,7 @@ func (v *NullableFailure) Unset() {
 	v.isSet = false
 }
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewNullableFailure
 func NewNullableFailure(val *Failure) *NullableFailure {
 	return &NullableFailure{value: val, isSet: true}
 }

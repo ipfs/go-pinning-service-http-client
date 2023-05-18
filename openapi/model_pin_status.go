@@ -15,6 +15,8 @@ import (
 )
 
 // PinStatus Pin object with status
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.PinStatus
 type PinStatus struct {
 	// Globally unique identifier of the pin request; can be used to check the status of ongoing pinning, or pin removal
 	Requestid string `json:"requestid"`
@@ -32,6 +34,8 @@ type PinStatus struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewPinStatus
 func NewPinStatus(requestid string, status Status, created time.Time, pin Pin, delegates []string) *PinStatus {
 	this := PinStatus{}
 	this.Requestid = requestid
@@ -45,6 +49,8 @@ func NewPinStatus(requestid string, status Status, created time.Time, pin Pin, d
 // NewPinStatusWithDefaults instantiates a new PinStatus object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewPinStatusWithDefaults
 func NewPinStatusWithDefaults() *PinStatus {
 	this := PinStatus{}
 	return &this
@@ -225,6 +231,7 @@ func (o PinStatus) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NullablePinStatus
 type NullablePinStatus struct {
 	value *PinStatus
 	isSet bool
@@ -248,6 +255,7 @@ func (v *NullablePinStatus) Unset() {
 	v.isSet = false
 }
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewNullablePinStatus
 func NewNullablePinStatus(val *PinStatus) *NullablePinStatus {
 	return &NullablePinStatus{value: val, isSet: true}
 }
