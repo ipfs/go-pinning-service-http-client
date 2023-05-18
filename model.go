@@ -11,6 +11,8 @@ import (
 )
 
 // PinGetter Getter for Pin object
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client.PinGetter
 type PinGetter interface {
 	fmt.Stringer
 	json.Marshaler
@@ -67,14 +69,20 @@ func (p *pinObject) GetCid() cid.Cid {
 	return c
 }
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client.Status
 type Status string
 
 const (
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client.StatusUnknown
 	StatusUnknown Status = ""
-	StatusQueued  Status = Status(openapi.QUEUED)
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client.StatusQueued
+	StatusQueued Status = Status(openapi.QUEUED)
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client.StatusPinning
 	StatusPinning Status = Status(openapi.PINNING)
-	StatusPinned  Status = Status(openapi.PINNED)
-	StatusFailed  Status = Status(openapi.FAILED)
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client.StatusPinned
+	StatusPinned Status = Status(openapi.PINNED)
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client.StatusFailed
+	StatusFailed Status = Status(openapi.FAILED)
 )
 
 func (s Status) String() string {
@@ -89,6 +97,8 @@ func (s Status) String() string {
 var validStatuses = []Status{"queued", "pinning", "pinned", "failed"}
 
 // PinStatusGetter Getter for Pin object with status
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client.PinStatusGetter
 type PinStatusGetter interface {
 	fmt.Stringer
 	json.Marshaler

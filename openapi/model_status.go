@@ -15,14 +15,20 @@ import (
 )
 
 // Status Status a pin object can have at a pinning service
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.Status
 type Status string
 
 // List of Status
 const (
-	QUEUED  Status = "queued"
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.QUEUED
+	QUEUED Status = "queued"
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.PINNING
 	PINNING Status = "pinning"
-	PINNED  Status = "pinned"
-	FAILED  Status = "failed"
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.PINNED
+	PINNED Status = "pinned"
+	// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.FAILED
+	FAILED Status = "failed"
 )
 
 func (v *Status) UnmarshalJSON(src []byte) error {
@@ -47,6 +53,7 @@ func (v Status) Ptr() *Status {
 	return &v
 }
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NullableStatus
 type NullableStatus struct {
 	value *Status
 	isSet bool
@@ -70,6 +77,7 @@ func (v *NullableStatus) Unset() {
 	v.isSet = false
 }
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewNullableStatus
 func NewNullableStatus(val *Status) *NullableStatus {
 	return &NullableStatus{value: val, isSet: true}
 }

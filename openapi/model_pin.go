@@ -14,6 +14,8 @@ import (
 )
 
 // Pin Pin object
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.Pin
 type Pin struct {
 	// Content Identifier (CID) to be pinned recursively
 	Cid string `json:"cid"`
@@ -29,6 +31,8 @@ type Pin struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewPin
 func NewPin(cid string) *Pin {
 	this := Pin{}
 	this.Cid = cid
@@ -38,6 +42,8 @@ func NewPin(cid string) *Pin {
 // NewPinWithDefaults instantiates a new Pin object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
+//
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewPinWithDefaults
 func NewPinWithDefaults() *Pin {
 	this := Pin{}
 	return &this
@@ -180,6 +186,7 @@ func (o Pin) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NullablePin
 type NullablePin struct {
 	value *Pin
 	isSet bool
@@ -203,6 +210,7 @@ func (v *NullablePin) Unset() {
 	v.isSet = false
 }
 
+// Deprecated: use github.com/ipfs/boxo/pinning/remote/client/openapi.NewNullablePin
 func NewNullablePin(val *Pin) *NullablePin {
 	return &NullablePin{value: val, isSet: true}
 }
